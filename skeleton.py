@@ -1,3 +1,6 @@
+import csv
+
+
 class InventorySystem:
     def __init__(self):
         self.authenticated = False
@@ -13,40 +16,30 @@ class InventorySystem:
             print("Invalid credentials")
 
     def add_product(self):
-        name = input("Enter Product Name: ")
-        category = input("Enter Category: ")
-        price = input("Enter Price: ")
-        stock = input("Enter Stock Quantity: ")
-
-        try:
-            price = float(price)
-            stock = int(stock)
-        except ValueError:
-            print("Invalid input. Price must be a number and stock must be an integer.")
-            return
-
-        product = {"name": name, "category": category, "price": price, "stock": stock}
+        # add to inventory.csv
+        product_name = input("Enter Product Name: ")
+        product_price = input("Enter Product Price: ")
+        product_quantity = input("Enter Product Quantity: ")
+        product = {
+            "name": product_name,
+            "price": product_price,
+            "quantity": product_quantity,
+        }
         self.products.append(product)
-        print("Product added successfully!")
+
+        with open("inventory.csv", mode="a", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["name", "price", "quantity"])
+            if file.tell() == 0:
+                writer.writeheader()
+            writer.writerow(product)
+
+        print("Product added successfully")
 
     def remove_product(self):
-        name = input("Enter Product Name to Remove: ")
-        for product in self.products:
-            if product["name"] == name:
-                self.products.remove(product)
-                print("Product removed successfully!")
-                return
-        print("Product not found.")
+        print("Remove Product")
 
     def view_products(self):
-        if not self.products:
-            print("No products available.")
-            return
-        print("\nProduct Inventory:")
-        for product in self.products:
-            print(
-                f"Name: {product['name']}, Category: {product['category']}, Price: {product['price']}, Stock: {product['stock']}"
-            )
+        print("View Products")
 
     def main(self):
         print("Welcome to Inventory Management System")
