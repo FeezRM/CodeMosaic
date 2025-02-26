@@ -37,6 +37,23 @@ class InventorySystem:
 
     def remove_product(self):
         print("Remove Product")
+        product_name = input("Enter Product Name: ")
+
+        for product in self.products:
+            if product["name"] == product_name:
+                self.products.remove(product)
+                break
+            else:
+                print("not found")
+                return
+
+        with open("inventory.csv", mode="w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["name", "price", "quantity"])
+            writer.writeheader()
+            writer.writerows(self.products)
+
+        print("removed successfully")
+
 
     def view_products(self):
         print("View Products")
