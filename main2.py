@@ -96,13 +96,14 @@ class InventorySystem:
 
     def add_product(self):
         """ Adds a product to inventory.csv """
-        print("\nEnter product details:")
+        print("\nEnter product details below: ")
         product_name = input("Product Name: ").strip()
         brand = input("Brand: ").strip()
         category = input("Category: ").strip()
         price = input("Price: ").strip()
         color = input("Color: ").strip()
         size = input("Size: ").strip()
+        
 
         product = {
             "Product Name": product_name,
