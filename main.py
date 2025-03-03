@@ -4,7 +4,7 @@ import csv
 class InventorySystem:
     def __init__(self):
         self.authenticated = False
-        self.products = []
+        self.products = self.load_products()
 
     def authenticate(self, username, password):
         USER_NAME = "admin"
@@ -15,16 +15,30 @@ class InventorySystem:
         else:
             print("Invalid credentials")
 
+    def load_products(self):
+        """Load products from inventory.csv into self.products"""
+        products = []
+        try:
+            with open("inventory.csv", mode="r", newline="") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    products.append(row)
+        except FileNotFoundError:
+            pass  # No inventory file exists yet
+        return products
+
     def add_product(self):
-        # add to inventory.csv
+        """Add a new product to inventory.csv and self.products"""
         product_name = input("Enter Product Name: ")
         product_price = input("Enter Product Price: ")
         product_quantity = input("Enter Product Quantity: ")
+
         product = {
             "name": product_name,
             "price": product_price,
             "quantity": product_quantity,
         }
+
         self.products.append(product)
 
         with open("inventory.csv", mode="a", newline="") as file:
@@ -36,24 +50,26 @@ class InventorySystem:
         print("Product added successfully")
 
     def remove_product(self):
+        """Remove a product from inventory.csv and self.products"""
         print("Remove Product")
         product_name = input("Enter Product Name: ")
 
-        for product in self.products:
-            if product["name"] == product_name:
-                self.products.remove(product)
-                break
-            else:
-                print("not found")
-                return
+        # Filter out the product to remove
+        updated_products = [p for p in self.products if p["name"] != product_name]
 
+        if len(updated_products) == len(self.products):
+            print("Product not found.")
+            return
+
+        self.products = updated_products
+
+        # Rewrite inventory.csv without the removed product
         with open("inventory.csv", mode="w", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=["name", "price", "quantity"])
             writer.writeheader()
             writer.writerows(self.products)
 
-        print("removed successfully")
-
+        print("Product removed successfully")
 
     def view_products(self):
         print("View Products")
