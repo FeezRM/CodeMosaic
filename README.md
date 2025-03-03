@@ -5,7 +5,6 @@
 **Code Mosaic**, led by team members **Ebaadurrub Awan, Ibrahim Ihsan, Tabish Ghouri, Faiz Kerawala, and Sayen Mayuran**, is developing a **command-line-based clothing inventory management system**. This system is designed to help you **digitize and manage their clothing catalogues efficiently**.
 
 The project focuses on providing essential inventory management functionalities, including:
-
 - Adding, editing, removing, sorting, and filtering clothing items.
 - Administrative login system for secured access.
 - Future scalability for web-based integration and AI-powered search.
