@@ -101,29 +101,47 @@ class InventorySystem:
                 print("Invalid choice. Try again.")
 
     def add_product(self):
-        """ Adds a product to inventory.csv """
-        print("\nEnter product details below: ")
-        product_name = input("Product Name: ").strip()
-        brand = input("Brand: ").strip()
-        category = input("Category: ").strip()
-        price = input("Price: ").strip()
-        color = input("Color: ").strip()
-        size = input("Size: ").strip()
-        
-        product = {
-            "Product Name": product_name,
-            "Brand": brand,
-            "Category": category,
-            "Price": price,
-            "Color": color,
-            "Size": size
-        }
+        """ Adds a product to inventory with validation and duplicate checking """
+        print("\nEnter product details:")
 
-        with open(self.file_path, mode="a", newline="\n") as file:
+        product = {}
+        for field in self.fieldnames:
+            while True:
+                value = input(f"{field}: ").strip()
+
+                # Validate price input
+                if field == "Price" and not value.replace('.', '', 1).isdigit():
+                    print("Invalid price! Enter a valid number.")
+                    continue
+
+                # Ensure no empty fields
+                if not value:
+                    print(f"{field} cannot be empty. Please enter a valid value.")
+                    continue
+
+        # Check for duplicate product
+        if self.is_duplicate(product):
+            print("\n⚠️ Product already exists in inventory. Duplicate entry not added.")
+            return
+
+        # Add product to the inventory
+        with open(self.file_path, mode="a", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
             writer.writerow(product)
 
-        print("Product added successfully!")
+        print("✅ Product added successfully!")
+
+    def is_duplicate(self, product):
+        """ Checks if a product already exists in the inventory """
+        try:
+            with open(self.file_path, mode="r", newline="") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if all(row[field] == product[field] for field in self.fieldnames):
+                        return True
+        except FileNotFoundError:
+            return False
+        return False
 
     def remove_product(self):
         """ Removes a product from the inventory """
@@ -162,27 +180,27 @@ class InventorySystem:
                 writer.writeheader()  # Write header first
                 writer.writerows(updated_products)  # Write remaining products
 
-            print("\nProduct removed successfully!")
+            print("\n✅ Product removed successfully!")
 
         except FileNotFoundError:
-            print("\nInventory file not found!")
+            print("\n⚠️ Inventory file not found!")
 
     def view_products(self):
         """ Displays all products in inventory """
-        print("\nCurrent Inventory:")
+        print("\n📦 Current Inventory:")
         try:
             with open(self.file_path, mode="r", newline="") as file:
                 reader = csv.DictReader(file)
                 products = list(reader)
-                
+
                 if not products:
-                    print("No products available.")
+                    print("ℹ️ No products available.")
                 else:
                     for product in products:
                         print(f"Name: {product['Product Name']}, Brand: {product['Brand']}, Category: {product['Category']}, "
                               f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
         except FileNotFoundError:
-            print("No inventory file found.")
+            print("⚠️ No inventory file found!")
 
     def main(self):
         """ Main function to run the Inventory System """
