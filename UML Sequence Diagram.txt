@@ -1,0 +1,22 @@
+User          InventorySystem       Login
+ |                  |                  |
+ | -- enters username/password -->      |
+ |                  |                  |
+ |        calls authenticate()          |
+ |                  |                  |
+ |   creates Login object               |
+ |                  |                  |
+ |   calls check_login() -------------->|
+ |                  |  reads credentials|
+ |                  |  checks CSV file  |
+ |                  |  returns result   |
+ |<------ login success/fail -----------|
+ |                  |                  |
+ |     If success: grants access        |
+ |     If fail: prompts retry           |
+ |                  |                  |
+
+Actors:
+User: Provides credentials.
+InventorySystem: Handles authentication.
+Login: Verifies credentials with stored data.

@@ -1,0 +1,30 @@
++--------------------+
+|      Login        |
++--------------------+
+| - username: str   |
+| - password: str   |
+| - file_path: str  |
++--------------------+
+| + ensure_file_exists(): void  |
+| + add_login(): bool           |
+| + check_login(): bool         |
++--------------------+
+
+             Uses
+              |
+              v
++----------------------------------+
+|       InventorySystem           |
++----------------------------------+
+| - authenticated: bool           |
+| - products: list                |
+| - file_path: str                |
+| - fieldnames: list              |
++----------------------------------+
+| + ensure_file_exists(): void    |
+| + authenticate(): void          |
+| + add_product(): void           |
+| + remove_product(): void        |
+| + view_products(): void         |
+| + main(): void                  |
++----------------------------------+
