@@ -4,70 +4,65 @@ import os
 class InventorySystem:
     def __init__(self):
         self.file_path = "csv_files/fashion_inventory.csv"
-        self.fieldnames = ["Product Name", "Brand", "Category", "Price", "Color", "Size"]
+        self.fieldnames = ["Product ID", "Product Name", "Brand", "Category", "Price", "Color", "Size"]
         self.ensure_file_exists()
 
     def ensure_file_exists(self):
-        """ Ensures the inventory CSV file exists with headers """
+        """Ensures the CSV file exists with correct headers."""
         if not os.path.exists(self.file_path):
             with open(self.file_path, mode="w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(self.fieldnames)  # Write headers
 
     def add_product(self):
-        """ Adds a product to inventory """
-        print("\nEnter product details:")
-        product_name = input("Product Name: ").strip()
-        brand = input("Brand: ").strip()
-        category = input("Category: ").strip()
-        price = input("Price: ").strip()
-        color = input("Color: ").strip()
-        size = input("Size: ").strip()
+        """Adds a product to inventory.csv where user can put info in one line"""
+        print("\nEnter product details in the following format:")
+        print("Product_ID Product_Name Brand Category Price Color Size")
+        print("Example: 25 Shoes Nike Men's 20 Red L")
+
+        product_input = input("\n Enter product details: ").strip().split()
+
+            # Ensure the correct number of inputs
+        if len(product_input) != 7:
+            print("\nInvalid input! Please enter exactly 7 values separated by spaces.")
+            return
+        
+        product_id, product_name, brand, category, price, color, size = product_input
 
         product = {
-            "Product Name": product_name,
-            "Brand": brand,
-            "Category": category,
+            "Product ID": product_id,
+            "Product Name": product_name.title(),
+            "Brand": brand.title(),
+            "Category": category.title(),
             "Price": price,
-            "Color": color,
-            "Size": size
+            "Color": color.title(),
+            "Size": size.title()
         }
 
-        with open(self.file_path, mode="a", newline="\n") as file:
+            # Append product to CSV file
+        with open(self.file_path, mode="a", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            if file.tell() == 0:  # If file is empty, write header
+                writer.writeheader()
             writer.writerow(product)
 
-        print("Product added successfully!")
+        print("\nProduct added successfully!")
 
     def remove_product(self):
-        """ Removes a product by exact match of all attributes """
-        print("\nEnter details of the product you want to remove:")
-        product_name = input("Product Name: ").strip()
-        brand = input("Brand: ").strip()
-        category = input("Category: ").strip()
-        price = input("Price: ").strip()
-        color = input("Color: ").strip()
-        size = input("Size: ").strip()
+        """Removes a product by Product ID."""
+        print("\nEnter the Product ID of the item you want to remove:")
+        product_id = input("Product ID: ").strip()
 
         try:
             with open(self.file_path, mode="r", newline="") as file:
                 reader = csv.DictReader(file)
                 products = list(reader)
 
-            product_to_remove = {
-                "Product Name": product_name,
-                "Brand": brand,
-                "Category": category,
-                "Price": price,
-                "Color": color,
-                "Size": size
-            }
+            updated_products = [p for p in products if p["Product ID"] != product_id]
 
-            if product_to_remove not in products:
-                print("\nProduct not found! Make sure you entered exact details.")
+            if len(updated_products) == len(products):
+                print("\nProduct not found! Ensure you entered the correct Product ID.")
                 return
-
-            updated_products = [p for p in products if p != product_to_remove]
 
             with open(self.file_path, mode="w", newline="") as file:
                 writer = csv.DictWriter(file, fieldnames=self.fieldnames)
@@ -80,7 +75,7 @@ class InventorySystem:
             print("\nInventory file not found!")
 
     def view_products(self):
-        """ Displays all products in inventory """
+        """Displays all products in inventory."""
         print("\nCurrent Inventory:")
         try:
             with open(self.file_path, mode="r", newline="") as file:
@@ -91,6 +86,8 @@ class InventorySystem:
                     print("No products available.")
                 else:
                     for product in products:
-                        print(f"{product['Product Name']} | {product['Brand']} | {product['Category']} | ${product['Price']} | {product['Color']} | {product['Size']}")
+                        print(f"ID: {product['Product ID']}, Name: {product['Product Name']}, "
+                              f"Brand: {product['Brand']}, Category: {product['Category']}, "
+                              f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
         except FileNotFoundError:
-            print("\nNo inventory file found!")
+            print("No inventory file found.")

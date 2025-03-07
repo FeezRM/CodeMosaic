@@ -1,6 +1,9 @@
 import csv
 import os
 
+import csv
+import os
+
 class Login:
     def __init__(self, username="", password=""):
         self.username = username.strip()
@@ -9,15 +12,15 @@ class Login:
         self.ensure_file_exists()
 
     def ensure_file_exists(self):
-        """ Ensures the CSV file exists and has headers """
+        """ Ensures the login CSV file exists with headers """
         if not os.path.exists(self.file_path):
             with open(self.file_path, mode='w', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow(["Username", "Password"])  # Add header row
 
     def add_login(self):
-        """ Adds a new user to the credentials file """
-        if self.check_login():  # Prevent duplicate accounts
+        """ Registers a new user """
+        if self.check_login():
             print("User already exists!")
             return False
 
@@ -28,13 +31,13 @@ class Login:
             return True
 
     def check_login(self):
-        """ Verifies if the username and password match a stored record """
+        """ Checks if the entered username & password match an existing user """
         try:
             with open(self.file_path, mode='r', newline='') as file:
                 reader = csv.reader(file)
                 next(reader, None)  # Skip header row
                 for row in reader:
-                    if row and len(row) == 2:  # Ensure valid row structure
+                    if row and len(row) == 2:
                         stored_username, stored_password = row
                         if stored_username.strip() == self.username and stored_password.strip() == self.password:
                             return True
@@ -45,25 +48,106 @@ class Login:
 
 class InventorySystem:
     def __init__(self):
-        self.authenticated = False
-        self.products = []
         self.file_path = "csv_files/fashion_inventory.csv"
-        self.fieldnames = ["Product Name", "Brand", "Category", "Price", "Color", "Size"]
+        self.fieldnames = ["Product ID", "Product Name", "Brand", "Category", "Price", "Color", "Size"]
         self.ensure_file_exists()
 
     def ensure_file_exists(self):
-        """ Ensures the CSV file exists with correct headers """
+        """Ensures the CSV file exists with correct headers."""
         if not os.path.exists(self.file_path):
             with open(self.file_path, mode="w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(self.fieldnames)  # Write headers
 
+    def add_product(self):
+        """Adds a product to inventory.csv where user can put info in one line"""
+        print("\nEnter product details in the following format:")
+        print("Product_ID Product_Name Brand Category Price Color Size")
+        print("Example: 25 Shoes Nike Men's 20 Red L")
+
+        product_input = input("\n Enter product details: ").strip().split()
+
+            # Ensure the correct number of inputs
+        if len(product_input) != 7:
+            print("\nInvalid input! Please enter exactly 7 values separated by spaces.")
+            return
+        
+        product_id, product_name, brand, category, price, color, size = product_input
+
+        product = {
+            "Product ID": product_id,
+            "Product Name": product_name.title(),
+            "Brand": brand.title(),
+            "Category": category.title(),
+            "Price": price,
+            "Color": color.title(),
+            "Size": size.title()
+        }
+
+            # Append product to CSV file
+        with open(self.file_path, mode="a", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            if file.tell() == 0:  # If file is empty, write header
+                writer.writeheader()
+            writer.writerow(product)
+
+        print("\nProduct added successfully!")
+
+    def remove_product(self):
+        """Removes a product by Product ID."""
+        print("\nEnter the Product ID of the item you want to remove:")
+        product_id = input("Product ID: ").strip()
+
+        try:
+            with open(self.file_path, mode="r", newline="") as file:
+                reader = csv.DictReader(file)
+                products = list(reader)
+
+            updated_products = [p for p in products if p["Product ID"] != product_id]
+
+            if len(updated_products) == len(products):
+                print("\nProduct not found! Ensure you entered the correct Product ID.")
+                return
+
+            with open(self.file_path, mode="w", newline="") as file:
+                writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+                writer.writeheader()
+                writer.writerows(updated_products)
+
+            print("\nProduct removed successfully!")
+
+        except FileNotFoundError:
+            print("\nInventory file not found!")
+
+    def view_products(self):
+        """Displays all products in inventory."""
+        print("\nCurrent Inventory:")
+        try:
+            with open(self.file_path, mode="r", newline="") as file:
+                reader = csv.DictReader(file)
+                products = list(reader)
+                
+                if not products:
+                    print("No products available.")
+                else:
+                    for product in products:
+                        print(f"ID: {product['Product ID']}, Name: {product['Product Name']}, "
+                              f"Brand: {product['Brand']}, Category: {product['Category']}, "
+                              f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
+        except FileNotFoundError:
+            print("No inventory file found.")
+
+class App:
+    def __init__(self):
+        self.authenticated = False
+        self.inventory = InventorySystem()
+    
     def authenticate(self):
-        """ Handles user login, registration, and guest access """
+        """Handles user login, registration, and guest access."""
         while not self.authenticated:
             print("\n1. Login")
             print("2. Register")
-            print("3. Guest")
+            print("3. Guest Mode")
             print("4. Exit")
             choice = input("Select an option: ")
 
@@ -100,93 +184,9 @@ class InventorySystem:
             else:
                 print("Invalid choice. Try again.")
 
-    def add_product(self):
-        """ Adds a product to inventory.csv """
-        print("\nEnter product details below: ")
-        product_name = input("Product Name: ").strip()
-        brand = input("Brand: ").strip()
-        category = input("Category: ").strip()
-        price = input("Price: ").strip()
-        color = input("Color: ").strip()
-        size = input("Size: ").strip()
-        
-        product = {
-            "Product Name": product_name,
-            "Brand": brand,
-            "Category": category,
-            "Price": price,
-            "Color": color,
-            "Size": size
-        }
-
-        with open(self.file_path, mode="a", newline="\n") as file:
-            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
-            writer.writerow(product)
-
-        print("Product added successfully!")
-
-    def remove_product(self):
-        """ Removes a product from the inventory """
-        print("\nEnter details of the product you want to remove:")
-        product_name = input("Product Name: ").strip()
-        brand = input("Brand: ").strip()
-        category = input("Category: ").strip()
-        price = input("Price: ").strip()
-        color = input("Color: ").strip()
-        size = input("Size: ").strip()
-
-        try:
-            with open(self.file_path, mode="r", newline="") as file:
-                reader = csv.DictReader(file)
-                products = list(reader)  # Read all products into a list
-
-            product_to_remove = {
-                "Product Name": product_name,
-                "Brand": brand,
-                "Category": category,
-                "Price": price,
-                "Color": color,
-                "Size": size
-            }
-
-            if product_to_remove not in products:
-                print("\nProduct not found! Make sure you entered exact details.")
-                return
-
-            # Keep only products that do NOT match the full entry
-            updated_products = [p for p in products if p != product_to_remove]
-
-            # Write back updated products
-            with open(self.file_path, mode="w", newline="") as file:
-                writer = csv.DictWriter(file, fieldnames=self.fieldnames)
-                writer.writeheader()  # Write header first
-                writer.writerows(updated_products)  # Write remaining products
-
-            print("\nProduct removed successfully!")
-
-        except FileNotFoundError:
-            print("\nInventory file not found!")
-
-    def view_products(self):
-        """ Displays all products in inventory """
-        print("\nCurrent Inventory:")
-        try:
-            with open(self.file_path, mode="r", newline="") as file:
-                reader = csv.DictReader(file)
-                products = list(reader)
-                
-                if not products:
-                    print("No products available.")
-                else:
-                    for product in products:
-                        print(f"Name: {product['Product Name']}, Brand: {product['Brand']}, Category: {product['Category']}, "
-                              f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
-        except FileNotFoundError:
-            print("No inventory file found.")
-
-    def main(self):
-        """ Main function to run the Inventory System """
-        print("Welcome to Inventory Management System")
+    def run(self):
+        """Main function to run the Inventory System."""
+        print("Welcome to the Fashion Inventory System!")
         self.authenticate()  # Ensure user is authenticated before accessing inventory
 
         while True:
@@ -199,11 +199,11 @@ class InventorySystem:
             choice = input("Select an option: ")
 
             if choice == "1":
-                self.view_products()
+                self.inventory.view_products()
             elif choice == "2" and self.authenticated != "guest":
-                self.add_product()
+                self.inventory.add_product()
             elif choice == "3" and self.authenticated != "guest":
-                self.remove_product()
+                self.inventory.remove_product()
             elif choice == "4":
                 print("Exiting...\n")
                 break
@@ -211,5 +211,5 @@ class InventorySystem:
                 print("Invalid choice. Try again.")
 
 if __name__ == "__main__":
-    system = InventorySystem()
-    system.main()
+    app = App()
+    app.run()
