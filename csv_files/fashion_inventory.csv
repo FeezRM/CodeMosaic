@@ -1,10 +1,12 @@
-Product ID,Product Name,Brand,Category,Price,Color,Size
-1,Dress,Adidas,Men's Fashion,40,Black,XL
-2,Shoes,H&M,Women's Fashion,82,Black,L
-3,Dress,Adidas,Women's Fashion,44,Yellow,XL
-4,Shoes,Zara,Men's Fashion,23,White,S
-5,T-shirt,Adidas,Men's Fashion,79,Black,M
-6,Dress,Adidas,Men's Fashion,47,Yellow,L
-7,Jeans,Gucci,Men's Fashion,37,White,XL
-8,Sweater,Zara,Kids' Fashion,64,Blue,XL
-9,Sweater,H&M,Men's Fashion,53,Green,XL
+Product ID,Product Name,Brand,Category,Price,Color,Size,Description,Material,Weight (kg),Stock Quantity
+1,Dress,Adidas,Men's Fashion,40,Black,XL,Classic black dress with a modern fit,Cotton Blend,0.5,20
+2,Shoes,H&M,Women's Fashion,82,Black,L,Stylish high-heel shoes with cushioned insoles,Leather,1.2,15
+3,Dress,Adidas,Women's Fashion,44,Yellow,XL,Flowy summer dress with breathable fabric,Polyester,0.4,18
+4,Shoes,Zara,Men's Fashion,23,White,S,Minimalist sneakers with durable rubber soles,Synthetic Leather,1.0,22
+5,T-shirt,Adidas,Men's Fashion,79,Black,M,Soft cotton t-shirt with breathable fabric,100% Cotton,0.3,50
+6,Dress,Adidas,Men's Fashion,47,Yellow,L,Casual everyday dress with a relaxed fit,Rayon,0.5,30
+7,Jeans,Gucci,Men's Fashion,37,White,XL,Slim-fit white jeans with a stretchable fabric,Denim,1.1,25
+8,Sweater,Zara,Kids' Fashion,64,Blue,XL,Warm knitted sweater for kids,Wool Blend,0.7,40
+9,Sweater,H&M,Men's Fashion,53,Green,XL,Cozy oversized sweater with a ribbed design,Acrylic,0.6,35
+10,Sajkdnasoidn,Sahi,Dsa,dsa,Sda,As,sd,S,S,S
+10,Sadm,D,D,d,D,D,d,D,d,d
