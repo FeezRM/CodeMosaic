@@ -1,10 +1,23 @@
 import csv
 import os
 
+
 class InventorySystem:
     def __init__(self):
         self.file_path = "csv_files/fashion_inventory.csv"
-        self.fieldnames = ["Product ID", "Product Name", "Brand", "Category", "Price", "Color", "Size"]
+        self.fieldnames = [
+            "Product ID",
+            "Product Name",
+            "Brand",
+            "Category",
+            "Price",
+            "Color",
+            "Size",
+            "Description",
+            "Material",
+            "Weight (kg)",
+            "Stock Quantity",
+        ]
         self.ensure_file_exists()
 
     def ensure_file_exists(self):
@@ -15,38 +28,47 @@ class InventorySystem:
                 writer.writerow(self.fieldnames)  # Write headers
 
     def add_product(self):
-        """Adds a product to inventory.csv where user can put info in one line"""
-        print("\nEnter product details in the following format:")
-        print("Product_ID Product_Name Brand Category Price Color Size")
-        print("Example: 25 Shoes Nike Men's 20 Red L")
-
-        product_input = input("\n Enter product details: ").strip().split()
-
-            # Ensure the correct number of inputs
-        if len(product_input) != 7:
-            print("\nInvalid input! Please enter exactly 7 values separated by spaces.")
-            return
-        
-        product_id, product_name, brand, category, price, color, size = product_input
+        """Adds a product to inventory.csv, including a detailed description and material type."""
+        print("\nEnter product details:")
+        product_id = input("Product ID: ").strip()
+        product_name = input("Product Name: ").strip().title()
+        brand = input("Brand: ").strip().title()
+        category = input("Category: ").strip().title()
+        price = input("Price: ").strip()
+        color = input("Color: ").strip().title()
+        size = input("Size: ").strip().title()
+        description = input("Description: ").strip()
+        material = input("Material: ").strip().title()
+        weight = input("Weight (kg): ").strip()
+        stock_quantity = input("Stock Quantity: ").strip()
 
         product = {
             "Product ID": product_id,
-            "Product Name": product_name.title(),
-            "Brand": brand.title(),
-            "Category": category.title(),
+            "Product Name": product_name,
+            "Brand": brand,
+            "Category": category,
             "Price": price,
-            "Color": color.title(),
-            "Size": size.title()
+            "Color": color,
+            "Size": size,
+            "Description": description,
+            "Material": material,
+            "Weight (kg)": weight,
+            "Stock Quantity": stock_quantity,
         }
 
-            # Append product to CSV file
-        with open(self.file_path, mode="a", newline="") as file:
+        # Open file in append mode and ensure headers exist only when needed
+        file_exists = os.path.exists(self.file_path)
+
+        with open(self.file_path, mode="a", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
-            if file.tell() == 0:  # If file is empty, write header
+
+            # Write headers only if the file is new/empty
+            if not file_exists or os.stat(self.file_path).st_size == 0:
                 writer.writeheader()
+
             writer.writerow(product)
 
-        print("\nProduct added successfully!")
+        print("\n✅ Product added successfully!")
 
     def remove_product(self):
         """Removes a product by Product ID."""
@@ -61,7 +83,9 @@ class InventorySystem:
             updated_products = [p for p in products if p["Product ID"] != product_id]
 
             if len(updated_products) == len(products):
-                print("\nProduct not found! Ensure you entered the correct Product ID.")
+                print(
+                    "\n❌ Product not found! Ensure you entered the correct Product ID."
+                )
                 return
 
             with open(self.file_path, mode="w", newline="") as file:
@@ -69,30 +93,44 @@ class InventorySystem:
                 writer.writeheader()
                 writer.writerows(updated_products)
 
-            print("\nProduct removed successfully!")
+            print("\n✅ Product removed successfully!")
 
         except FileNotFoundError:
-            print("\nInventory file not found!")
+            print("\n❌ Inventory file not found!")
 
     def view_products(self):
-        """Displays all products in inventory."""
-        print("\nCurrent Inventory:")
+        """Displays all products in inventory in a structured tabular format, with better spacing and readability."""
+        print("\n📦 **Current Inventory:**\n")
         try:
             with open(self.file_path, mode="r", newline="") as file:
                 reader = csv.DictReader(file)
                 products = list(reader)
-                
+
                 if not products:
                     print("No products available.")
-                else:
-                    for product in products:
-                        print(f"ID: {product['Product ID']}, Name: {product['Product Name']}, "
-                              f"Brand: {product['Brand']}, Category: {product['Category']}, "
-                              f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
+                    return
+
+                print("=" * 160)
+                print(
+                    f"{'ID':<5} {'Name':<20} {'Brand':<12} {'Category':<20} {'Price':<8} "
+                    f"{'Color':<12} {'Size':<5} {'Stock':<8} {'Weight (kg)':<12} {'Material':<15}"
+                )
+                print("=" * 160)
+
+                for product in products:
+                    print(
+                        f"{product['Product ID']:<5} {product['Product Name']:<20} {product['Brand']:<12} "
+                        f"{product['Category']:<20} ${product['Price']:<7} {product['Color']:<12} {product['Size']:<5} "
+                        f"{product['Stock Quantity']:<8} {product['Weight (kg)']:<12} {product['Material']:<15}"
+                    )
+
+                    # Add extra spacing and a divider for better readability
+                    print(f"   📜 Description: {product['Description']}\n")
+                    print("-" * 160)
+
         except FileNotFoundError:
             print("No inventory file found.")
 
-    
     def filter_products(self):
         """Filters products based on multiple criteria specified in a single input."""
         print("\nFilter products by one or more criteria:")
@@ -107,7 +145,11 @@ class InventorySystem:
         print("9. Cancel")
 
         # Ask for filter options in a single input
-        filter_choices = input("Enter filter options (e.g., '6 7' for Color and Size): ").strip().split()
+        filter_choices = (
+            input("Enter filter options (e.g., '6 7' for Color and Size): ")
+            .strip()
+            .split()
+        )
 
         filters = {}  # Dictionary to store filter criteria
         for choice in filter_choices:
@@ -116,7 +158,9 @@ class InventorySystem:
                 filters["Product ID"] = product_id
 
             elif choice == "2":  # Filter by Product Name
-                product_name = input("Enter the Product Name to filter by: ").strip().title()
+                product_name = (
+                    input("Enter the Product Name to filter by: ").strip().title()
+                )
                 filters["Product Name"] = product_name
 
             elif choice == "3":  # Filter by Brand
@@ -170,9 +214,13 @@ class InventorySystem:
             filtered_products = products
             for key, value in filters.items():
                 if key == "Price":
-                    filtered_products = [p for p in filtered_products if float(p[key]) == value]
+                    filtered_products = [
+                        p for p in filtered_products if float(p[key]) == value
+                    ]
                 else:
-                    filtered_products = [p for p in filtered_products if p[key] == value]
+                    filtered_products = [
+                        p for p in filtered_products if p[key] == value
+                    ]
 
             if not filtered_products:
                 print("No products match the filter criteria.")
@@ -187,5 +235,5 @@ class InventorySystem:
 
         except FileNotFoundError:
             print("Inventory file not found!")
-                        
 
+            print("\n❌ No inventory file found!")
