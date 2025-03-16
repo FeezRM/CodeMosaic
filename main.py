@@ -1,115 +1,29 @@
 import csv
 import os
 
-class Login:
-    def __init__(self, username="", password=""):
-        self.username = username.strip()
-        self.password = password.strip()
-        self.file_path = "csv_files/login_credentials.csv"
-        self.ensure_file_exists()
-
-    def ensure_file_exists(self):
-        """ Ensures the CSV file exists and has headers """
-        if not os.path.exists(self.file_path):
-            with open(self.file_path, mode='w', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(["Username", "Password"])  # Add header row
-
-    def add_login(self):
-        """ Adds a new user to the credentials file """
-        if self.check_login():  # Prevent duplicate accounts
-            print("User already exists!")
-            return False
-
-        with open(self.file_path, mode='a', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([self.username, self.password])  # Store credentials
-            print("User registered successfully!")
-            return True
-
-    def check_login(self):
-        """ Verifies if the username and password match a stored record """
-        try:
-            with open(self.file_path, mode='r', newline='') as file:
-                reader = csv.reader(file)
-                next(reader, None)  # Skip header row
-                for row in reader:
-                    if row and len(row) == 2:  # Ensure valid row structure
-                        stored_username, stored_password = row
-                        if stored_username.strip() == self.username and stored_password.strip() == self.password:
-                            return True
-        except FileNotFoundError:
-            return False
-        return False
-
-
 class InventorySystem:
     def __init__(self):
-        self.authenticated = False
-        self.products = []
         self.file_path = "csv_files/fashion_inventory.csv"
         self.fieldnames = ["Product Name", "Brand", "Category", "Price", "Color", "Size"]
         self.ensure_file_exists()
 
     def ensure_file_exists(self):
-        """ Ensures the CSV file exists with correct headers """
+        """ Ensures the inventory CSV file exists with headers """
         if not os.path.exists(self.file_path):
             with open(self.file_path, mode="w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(self.fieldnames)  # Write headers
 
-    def authenticate(self):
-        """ Handles user login, registration, and guest access """
-        while not self.authenticated:
-            print("\n1. Login")
-            print("2. Register")
-            print("3. Guest")
-            print("4. Exit")
-            choice = input("Select an option: ")
-
-            if choice == "1":
-                username = input("Enter Username: ")
-                password = input("Enter Password: ")
-                user = Login(username, password)
-
-                if user.check_login():
-                    print("Login successful!")
-                    self.authenticated = True
-                    return
-                else:
-                    print("Invalid credentials. Try again.")
-
-            elif choice == "2":
-                username = input("Choose a Username: ")
-                password = input("Choose a Password: ")
-                user = Login(username, password)
-
-                if user.add_login():
-                    print("You can now log in!")
-                else:
-                    print("Registration failed. User may already exist.")
-
-            elif choice == "3":
-                print("\nYou are now using the system as a Guest. You can only view products.")
-                self.authenticated = "guest"
-                return
-
-            elif choice == "4":
-                print("Exiting system...")
-                exit()
-            else:
-                print("Invalid choice. Try again.")
-
     def add_product(self):
-        """ Adds a product to inventory.csv """
-        print("\nEnter product details below: ")
+        """ Adds a product to inventory """
+        print("\nEnter product details:")
         product_name = input("Product Name: ").strip()
         brand = input("Brand: ").strip()
         category = input("Category: ").strip()
         price = input("Price: ").strip()
         color = input("Color: ").strip()
         size = input("Size: ").strip()
-        
+
         product = {
             "Product Name": product_name,
             "Brand": brand,
@@ -167,44 +81,69 @@ class InventorySystem:
         except FileNotFoundError:
             print("\nInventory file not found!")
 
-    def view_products(self):
-        """ Displays all products in inventory """
-        print("\nCurrent Inventory:")
+    def filter_products(self):
+        """ Filters products based on user criteria """
+        print("\nEnter filter criteria (leave blank to skip a criterion):")
+        brand = input("Brand: ").strip()
+        category = input("Category: ").strip()
+        price_min = input("Minimum Price: ").strip()
+        price_max = input("Maximum Price: ").strip()
+        color = input("Color: ").strip()
+        size = input("Size: ").strip()
+        
         try:
             with open(self.file_path, mode="r", newline="") as file:
                 reader = csv.DictReader(file)
                 products = list(reader)
                 
-                if not products:
-                    print("No products available.")
+                filtered_products = []
+                for product in products:
+                    if brand and product['Brand'].lower() != brand.lower():
+                        continue
+                    if category and product['Category'].lower() != category.lower():
+                        continue
+                    if price_min and float(product['Price']) < float(price_min):
+                        continue
+                    if price_max and float(product['Price']) > float(price_max):
+                        continue
+                    if color and product['Color'].lower() != color.lower():
+                        continue
+                    if size and product['Size'].lower() != size.lower():
+                        continue
+                    
+                    filtered_products.append(product)
+                
+                if filtered_products:
+                    print("\nFiltered Products:")
+                    for product in filtered_products:
+                        print(f"{product['Product Name']} | {product['Brand']} | {product['Category']} | ${product['Price']} | {product['Color']} | {product['Size']}")
                 else:
-                    for product in products:
-                        print(f"Name: {product['Product Name']}, Brand: {product['Brand']}, Category: {product['Category']}, "
-                              f"Price: {product['Price']}, Color: {product['Color']}, Size: {product['Size']}")
+                    print("\nNo products matched the given criteria.")
+        
         except FileNotFoundError:
-            print("No inventory file found.")
+            print("\nInventory file not found!")
 
     def main(self):
         """ Main function to run the Inventory System """
         print("Welcome to Inventory Management System")
-        self.authenticate()  # Ensure user is authenticated before accessing inventory
-
         while True:
             print("\n1. View Products")
-            if self.authenticated != "guest":
-                print("2. Add Product")
-                print("3. Remove Product")
-            print("4. Exit")
+            print("2. Filter Products")
+            print("3. Add Product")
+            print("4. Remove Product")
+            print("5. Exit")
 
             choice = input("Select an option: ")
 
             if choice == "1":
                 self.view_products()
-            elif choice == "2" and self.authenticated != "guest":
+            elif choice == "2":
+                self.filter_products()
+            elif choice == "3":
                 self.add_product()
-            elif choice == "3" and self.authenticated != "guest":
-                self.remove_product()
             elif choice == "4":
+                self.remove_product()
+            elif choice == "5":
                 print("Exiting...\n")
                 break
             else:
