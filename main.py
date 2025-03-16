@@ -1,5 +1,7 @@
-from inventory import InventorySystem
+import csv
+import os
 from login import Login
+from inventory import InventorySystem
 
 
 class App:
@@ -39,9 +41,7 @@ class App:
                     print("Registration failed. User may already exist.")
 
             elif choice == "3":
-                print(
-                    "\nYou are now using the system as a Guest. You can only view products."
-                )
+                print("\nYou are now using the system as a Guest. You can only view products.")
                 self.authenticated = "guest"
                 return
 
@@ -54,13 +54,13 @@ class App:
     def run(self):
         """Main function to run the Inventory System."""
         print("Welcome to the Fashion Inventory System!")
-        self.authenticate()  # Ensure user is authenticated before accessing inventory
+        self.authenticate()
 
         while True:
             print("\n1. View Products")
             if self.authenticated != "guest":
                 print("2. Add Product")
-                print("3. Remove Product")
+                print("3. Modify Product Details")
             print("4. Filter Products")
             print("5. Exit")
 
@@ -71,7 +71,7 @@ class App:
             elif choice == "2" and self.authenticated != "guest":
                 self.inventory.add_product()
             elif choice == "3" and self.authenticated != "guest":
-                self.inventory.remove_product()
+                self.inventory.modify_product_details()
             elif choice == "4":
                 self.inventory.filter_products()
             elif choice == "5":
@@ -79,7 +79,6 @@ class App:
                 break
             else:
                 print("Invalid choice. Try again.")
-
 
 if __name__ == "__main__":
     app = App()
