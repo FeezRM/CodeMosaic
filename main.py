@@ -41,7 +41,9 @@ class App:
                     print("Registration failed. User may already exist.")
 
             elif choice == "3":
-                print("\nYou are now using the system as a Guest. You can only view products.")
+                print(
+                    "\nYou are now using the system as a Guest. You can only view products."
+                )
                 self.authenticated = "guest"
                 return
 
@@ -79,6 +81,7 @@ class App:
                 break
             else:
                 print("Invalid choice. Try again.")
+
 
 if __name__ == "__main__":
     app = App()
