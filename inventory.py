@@ -130,3 +130,42 @@ class InventorySystem:
 
         except FileNotFoundError:
             print("\n❌ No inventory file found!")
+
+    def modify_product_details(self):
+        """Modifies an existing product's details."""
+        print("\nEnter the Product ID of the item you want to modify:")
+        product_id = input("Product ID: ").strip()
+
+        try:
+            with open(self.file_path, mode="r", newline="") as file:
+                reader = csv.DictReader(file)
+                products = list(reader)
+
+            # Find the product to modify
+            for product in products:
+                if product["Product ID"] == product_id:
+                    print("\nCurrent product details:")
+                    for key, value in product.items():
+                        print(f"{key}: {value}")
+
+                    print("\nEnter new details (press Enter to keep existing value):")
+                    for key in self.fieldnames:
+                        if key == "Product ID":
+                            continue  # Product ID should remain unchanged
+                        new_value = input(f"{key} ({product[key]}): ").strip()
+                        if new_value:
+                            product[key] = new_value.title()
+
+                    # Rewrite the file with modified details
+                    with open(self.file_path, mode="w", newline="") as file:
+                        writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+                        writer.writeheader()
+                        writer.writerows(products)
+
+                    print("\nProduct details updated successfully!")
+                    return
+
+            print("\nProduct not found! Ensure you entered the correct Product ID.")
+
+        except FileNotFoundError:
+            print("\nInventory file not found!")

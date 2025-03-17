@@ -63,7 +63,8 @@ class App:
             if self.authenticated != "guest":
                 print("2. Add Product")
                 print("3. Remove Product")
-            print("4. Exit")
+                print("4. Modify Product Details")  # Now included
+            print("5. Exit")
 
             choice = input("Select an option: ")
 
@@ -73,7 +74,9 @@ class App:
                 self.inventory.add_product()
             elif choice == "3" and self.authenticated != "guest":
                 self.inventory.remove_product()
-            elif choice == "4":
+            elif choice == "4" and self.authenticated != "guest":
+                self.inventory.modify_product_details()  # Now accessible
+            elif choice == "5":
                 print("Exiting...\n")
                 break
             else:
