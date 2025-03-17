@@ -1,7 +1,7 @@
 import csv
 import os
-from login import Login
 from inventory import InventorySystem
+from login import Login
 
 
 class App:
@@ -24,11 +24,11 @@ class App:
                 user = Login(username, password)
 
                 if user.check_login():
-                    print("Login successful!")
+                    print("✅ Login successful!")
                     self.authenticated = True
                     return
                 else:
-                    print("Invalid credentials. Try again.")
+                    print("❌ Invalid credentials. Try again.")
 
             elif choice == "2":
                 username = input("Choose a Username: ")
@@ -36,51 +36,55 @@ class App:
                 user = Login(username, password)
 
                 if user.add_login():
-                    print("You can now log in!")
+                    print("✅ Registration successful! You can now log in.")
                 else:
-                    print("Registration failed. User may already exist.")
+                    print("❌ Registration failed. User may already exist.")
 
             elif choice == "3":
-                print(
-                    "\nYou are now using the system as a Guest. You can only view products."
-                )
+                print("\n👤 Guest Mode Activated: You can only view products.")
                 self.authenticated = "guest"
                 return
 
             elif choice == "4":
-                print("Exiting system...")
+                print("👋 Exiting system...")
                 exit()
             else:
-                print("Invalid choice. Try again.")
+                print("❌ Invalid choice. Try again.")
 
     def run(self):
         """Main function to run the Inventory System."""
-        print("Welcome to the Fashion Inventory System!")
-        self.authenticate()
+        print("🛍️ Welcome to the Fashion Inventory System!")
+        self.authenticate()  # Ensure user is authenticated before accessing inventory
 
         while True:
-            print("\n1. View Products")
-            if self.authenticated != "guest":
-                print("2. Add Product")
-                print("3. Modify Product Details")
-            print("4. Filter Products")
-            print("5. Exit")
+            print("\n📋 **Main Menu**")
+            print("1️⃣ View Products")
+            print("2️⃣ Filter Products")
 
-            choice = input("Select an option: ")
+            if self.authenticated != "guest":
+                print("3️⃣ Add Product")
+                print("4️⃣ Remove Product")
+                print("5️⃣ Modify Product Details")
+
+            print("6️⃣ Exit")
+
+            choice = input("\nSelect an option: ")
 
             if choice == "1":
                 self.inventory.view_products()
-            elif choice == "2" and self.authenticated != "guest":
-                self.inventory.add_product()
-            elif choice == "3" and self.authenticated != "guest":
-                self.inventory.modify_product_details()
-            elif choice == "4":
+            elif choice == "2":
                 self.inventory.filter_products()
-            elif choice == "5":
-                print("Exiting...\n")
+            elif choice == "3" and self.authenticated != "guest":
+                self.inventory.add_product()
+            elif choice == "4" and self.authenticated != "guest":
+                self.inventory.remove_product()
+            elif choice == "5" and self.authenticated != "guest":
+                self.inventory.modify_product_details()
+            elif choice == "6":
+                print("👋 Exiting system...\n")
                 break
             else:
-                print("Invalid choice. Try again.")
+                print("❌ Invalid choice. Try again.")
 
 
 if __name__ == "__main__":
