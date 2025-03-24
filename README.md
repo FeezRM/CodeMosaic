@@ -61,9 +61,9 @@ This system is intended to ensure **seamless product management** while being sc
    ```sh
    git clone https://github.com/FeezRM/CodeMosaic.git
    ```
-2. Run the system:
+2. Run the build script:
    ```sh
-   python main.py
+   .\build_and_run.bat
    ```
 
 ---
