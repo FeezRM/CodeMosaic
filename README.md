@@ -116,6 +116,29 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 | **Add Products**    | Ibrahim, Sayen        |
 | **Remove Products** | Tabish, Faiz          |
 
+## Iteration 2 Details
+
+### Current Iteration: **Iteration 2**
+
+#### User Stories Being Implemented:
+
+✅ **Modify Product Details** – Allow users to update existing product information in the inventory.
+✅ **Filters** – Enable filtering of products based on multiple criteria for easier navigation and management.
+✅ **Product Descriptions** – Ensure every product contains detailed, meaningful descriptions for clarity.
+
+#### Estimated Effort (Planning Poker Estimates):
+- **Modify Product Details:** 2 hours
+- **Filters:** 2 hours
+- **Product Descriptions:** 2 hours
+
+#### Task Assignments:
+
+| Task                          | Assigned Team Members |
+| ----------------------------- | --------------------- |
+| **Modify Product Details**    | Ibrahim               |
+| **Filter**                    | Ebaadurrub, Tabish    |
+| **Product Descriptions**      | Faiz, Sayen           |
+
 ---
 
 ## License
