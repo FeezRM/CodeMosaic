@@ -106,23 +106,49 @@ class InventorySystem:
     def filter_products(self):
         print("\n🔍 Filter products by one or more criteria:")
         filters = {}
+        price_range = {}
 
+        # Get price range if specified
+        min_price = input("➡️  Minimum Price (press Enter to skip): ").strip()
+        max_price = input("➡️  Maximum Price (press Enter to skip): ").strip()
+
+        if min_price or max_price:
+            price_range["min"] = float(min_price) if min_price else 0
+            price_range["max"] = float(max_price) if max_price else float("inf")
+
+        # Get other filters
         for key in self.fieldnames:
-            if key != "Description":
+            if key != "Description" and key != "Price":
                 value = input(f"➡️  {key} (press Enter to skip): ").strip()
                 if value:
-                    filters[key] = value.title() if key != "Price" else value
+                    filters[key] = value.title()
 
         try:
             with open(self.file_path, mode="r", newline="") as file:
                 reader = csv.DictReader(file)
                 products = list(reader)
 
-            filtered_products = [
-                product
-                for product in products
-                if all(product[key] == value for key, value in filters.items())
-            ]
+            filtered_products = []
+            for product in products:
+                # Check price range if specified
+                price_match = True
+                if price_range:
+                    try:
+                        product_price = float(product["Price"])
+                        if not (
+                            price_range["min"] <= product_price <= price_range["max"]
+                        ):
+                            price_match = False
+                    except ValueError:
+                        price_match = False
+
+                # Check other filters
+                other_filters_match = all(
+                    product[key] == value for key, value in filters.items()
+                )
+
+                if price_match and other_filters_match:
+                    filtered_products.append(product)
 
             if not filtered_products:
                 print("\n❌ No products match the filter criteria.")
@@ -146,6 +172,8 @@ class InventorySystem:
 
         except FileNotFoundError:
             print("❌ Inventory file not found!")
+        except ValueError:
+            print("❌ Invalid price format. Please enter numbers for price range.")
 
     def modify_product_details(self):
         print("\n✏️ Modify Product Details:")
