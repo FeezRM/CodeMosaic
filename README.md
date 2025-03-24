@@ -62,7 +62,7 @@ This system is intended to ensure **seamless product management** while being sc
    git clone https://github.com/FeezRM/CodeMosaic.git
    ```
 2. Run the build script:
-   ```bash
+   ```sh
    .\build_and_run.bat
    ```
 
