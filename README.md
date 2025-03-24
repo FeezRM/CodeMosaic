@@ -94,7 +94,7 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 ## Iteration 1 Details
 
-### Current Iteration: **Iteration 1**
+### **Iteration 1**
 
 #### User Stories Being Implemented:
 
