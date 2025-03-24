@@ -10,17 +10,17 @@ class App:
         self.inventory = InventorySystem()
 
     def authenticate(self):
-        """Handles user login, registration, and guest access."""
         while not self.authenticated:
-            print("\n1. Login")
-            print("2. Register")
-            print("3. Guest Mode")
-            print("4. Exit")
-            choice = input("Select an option: ")
+            print("\n🔐 Authentication Menu")
+            print("1️⃣ Login")
+            print("2️⃣ Register")
+            print("3️⃣ Guest Mode")
+            print("4️⃣ Exit")
+            choice = input("➡️  Select an option: ")
 
             if choice == "1":
-                username = input("Enter Username: ")
-                password = input("Enter Password: ")
+                username = input("👤 Enter Username: ")
+                password = input("🔑 Enter Password: ")
                 user = Login(username, password)
 
                 if user.check_login():
@@ -31,8 +31,8 @@ class App:
                     print("❌ Invalid credentials. Try again.")
 
             elif choice == "2":
-                username = input("Choose a Username: ")
-                password = input("Choose a Password: ")
+                username = input("👤 Choose a Username: ")
+                password = input("🔑 Choose a Password: ")
                 user = Login(username, password)
 
                 if user.add_login():
@@ -52,12 +52,11 @@ class App:
                 print("❌ Invalid choice. Try again.")
 
     def run(self):
-        """Main function to run the Inventory System."""
         print("🛍️ Welcome to the Fashion Inventory System!")
-        self.authenticate()  # Ensure user is authenticated before accessing inventory
+        self.authenticate()
 
         while True:
-            print("\n📋 **Main Menu**")
+            print("\n📋 Main Menu")
             print("1️⃣ View Products")
             print("2️⃣ Filter Products")
 
@@ -68,7 +67,7 @@ class App:
 
             print("6️⃣ Exit")
 
-            choice = input("\nSelect an option: ")
+            choice = input("\n➡️  Select an option: ")
 
             if choice == "1":
                 self.inventory.view_products()
