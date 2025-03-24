@@ -122,9 +122,9 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 #### User Stories Being Implemented:
 
-✅ **Modify Product Details** – Allow users to update existing product information in the inventory.
-✅ **Filters** – Enable filtering of products based on multiple criteria for easier navigation and management.
-✅ **Product Descriptions** – Ensure every product contains detailed, meaningful descriptions for clarity.
+✅ **Modify Product Details** – Allow users to update existing product information in the inventory. 
+✅ **Filters** – Enable filtering of products based on multiple criteria for easier navigation and management. 
+✅ **Product Descriptions** – Ensure every product contains detailed, meaningful descriptions for clarity. 
 
 #### Estimated Effort (Planning Poker Estimates):
 - **Modify Product Details:** 2 hours
