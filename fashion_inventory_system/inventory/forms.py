@@ -16,9 +16,16 @@ class CustomAuthenticationForm(AuthenticationForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = [
+            'product_id', 'name', 'brand', 'category', 'price', 
+            'color', 'size', 'description', 'material', 
+            'weight', 'stock_quantity'
+        ]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
+        }
+        labels = {
+            'weight': 'Weight (kg)',
         }
 
 class ProductFilterForm(forms.Form):

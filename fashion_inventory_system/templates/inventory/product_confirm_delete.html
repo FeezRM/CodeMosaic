@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h2>Confirm Delete</h2>
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to delete the following product?</p>
+            <div class="mb-4">
+                <h4>{{ object.name }}</h4>
+                <p><strong>Brand:</strong> {{ object.brand }}</p>
+                <p><strong>Product ID:</strong> {{ object.product_id }}</p>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

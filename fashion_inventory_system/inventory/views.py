@@ -12,6 +12,8 @@ from .forms import (
     ProductForm,
     ProductFilterForm
 )
+from django.contrib import messages
+from django.http import JsonResponse
 
 # Authentication Views
 def login_view(request):
@@ -59,39 +61,25 @@ class ProductListView(ListView):
     model = Product
     template_name = 'inventory/product_list.html'
     context_object_name = 'products'
-    paginate_by = 10
-
+    
     def get_queryset(self):
         queryset = super().get_queryset()
-        search_query = self.request.GET.get('search', '')
+        # Convert to list and sort numerically by product_id
+        queryset = sorted(list(queryset), key=lambda x: int(x.product_id))
+        
+        # Apply filters
         filters = {}
-
-        # Text search across multiple fields
-        if search_query:
-            queryset = queryset.filter(
-                Q(name__icontains=search_query) |
-                Q(brand__icontains=search_query) |
-                Q(category__icontains=search_query) |
-                Q(description__icontains=search_query)
-            )
-
-        # Exact match filters
-        for field in ['brand', 'category', 'color', 'size', 'material']:
+        for field in ['brand', 'category', 'color', 'size']:
             if value := self.request.GET.get(field):
-                filters[f"{field}__iexact"] = value
-
-        # Numeric range filters
+                filters[field] = value
         if price_min := self.request.GET.get('price_min'):
-            queryset = queryset.filter(price__gte=float(price_min))
+            queryset = [p for p in queryset if float(p.price) >= float(price_min)]
         if price_max := self.request.GET.get('price_max'):
-            queryset = queryset.filter(price__lte=float(price_max))
-        if stock_min := self.request.GET.get('stock_min'):
-            queryset = queryset.filter(stock_quantity__gte=int(stock_min))
-
+            queryset = [p for p in queryset if float(p.price) <= float(price_max)]
         if filters:
-            queryset = queryset.filter(**filters)
-
-        return queryset.order_by('name')
+            queryset = [p for p in queryset if all(p.__dict__[key] == value for key, value in filters.items())]
+        
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,9 +93,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     template_name = 'inventory/product_form.html'
     success_url = reverse_lazy('product_list')
-
+    
     def form_valid(self, form):
-        form.instance.added_by = self.request.user
+        messages.success(self.request, "Product added successfully!")
         return super().form_valid(form)
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -116,10 +104,19 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'inventory/product_form.html'
     success_url = reverse_lazy('product_list')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(DeleteView):
     model = Product
-    template_name = 'inventory/product_confirm_delete.html'
     success_url = reverse_lazy('product_list')
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        messages.success(request, 'Product deleted successfully!')
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        
+        return super().delete(request, *args, **kwargs)
 
 @login_required
 def product_detail(request, pk):

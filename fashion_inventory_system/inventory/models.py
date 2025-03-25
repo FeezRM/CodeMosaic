@@ -6,7 +6,7 @@ class User(AbstractUser):
     pass
 
 class Product(models.Model):
-    product_id = models.CharField(max_length=50, unique=True)
+    product_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
