@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Register</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                {{ error }}<br>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        {{ form.username }}
+                        <div class="form-text">4-30 characters. Letters, digits and @/./+/-/_ only.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label">Password</label>
+                        {{ form.password1 }}
+                        <div class="form-text">
+                            <ul>
+                                <li>Can't be too similar to other personal information</li>
+                                <li>Must contain at least 8 characters</li>
+                                <li>Can't be a commonly used password</li>
+                                <li>Can't be entirely numeric</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label">Password confirmation</label>
+                        {{ form.password2 }}
+                        <div class="form-text">Enter the same password as before, for verification.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <a href="{% url 'login' %}" class="btn btn-link">Already have an account?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
