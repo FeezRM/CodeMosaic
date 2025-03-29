@@ -82,7 +82,7 @@ This system is intended to ensure **seamless product management** while being sc
    ```bash 
    pip install django
    ```
-   To get server running run:
+   To get server running:
    ```bash
    python manage.py runserver
    ```
