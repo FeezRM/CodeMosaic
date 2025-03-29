@@ -64,13 +64,13 @@ This system is intended to ensure **seamless product management** while being sc
    ```
 
 2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-# Windows:
-venv\Scripts\Activate
-# Mac/Linux:
-source venv/bin/activate
-```
+   ```bash
+   python -m venv venv
+   # Windows:
+   venv\Scripts\Activate
+   # Mac/Linux:
+   source venv/bin/activate
+   ```
 
 3. Run the build script:
    ```sh
