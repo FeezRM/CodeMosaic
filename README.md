@@ -87,7 +87,7 @@ This system is intended to ensure **seamless product management** while being sc
    python manage.py runserver
    ```
 
-Then open http://localhost:8000 in your browser.
+Then open http://localhost:8000 in your browser
 
 ---
 
