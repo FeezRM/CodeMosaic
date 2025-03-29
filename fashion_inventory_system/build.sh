@@ -1,12 +1,8 @@
 #!/bin/bash
 echo "Setting up Fashion Inventory System..."
 
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
 # Install dependencies
-pip install -r requirements.txt
+pip install django
 
 # Run migrations
 python manage.py migrate

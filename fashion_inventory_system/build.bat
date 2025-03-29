@@ -1,12 +1,8 @@
 @echo off
 echo Setting up Fashion Inventory System...
 
-:: Create virtual environment
-python -m venv venv
-call venv\Scripts\activate
-
 :: Install dependencies
-pip install -r requirements.txt
+pip install django
 
 :: Run migrations
 python manage.py migrate

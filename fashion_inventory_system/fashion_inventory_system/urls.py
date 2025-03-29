@@ -19,16 +19,16 @@ from django.contrib import admin
 from django.urls import path
 from inventory import views
 from inventory.views import ProductCreateView, ProductDeleteView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.ProductListView.as_view(), name='product_list'),
-    path('product/add/', views.ProductCreateView.as_view(), name='product_create'),
-    path('product/<int:pk>/edit/', views.ProductUpdateView.as_view(), name='product_update'),
-    path('product/<int:pk>/delete/', views.ProductDeleteView.as_view(), name='product_delete'),
+    path('product/add/', login_required(views.ProductCreateView.as_view()), name='product_create'),
+    path('product/<int:pk>/edit/', login_required(views.ProductUpdateView.as_view()), name='product_update'),
+    path('product/<int:pk>/delete/', login_required(views.ProductDeleteView.as_view()), name='product_delete'),
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
-    path('product/add/', ProductCreateView.as_view(), name='product_create'),
-    path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
 ]

@@ -93,6 +93,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     template_name = 'inventory/product_form.html'
     success_url = reverse_lazy('product_list')
+    login_url = '/login/'
     
     def form_valid(self, form):
         messages.success(self.request, "Product added successfully!")
@@ -103,10 +104,12 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     template_name = 'inventory/product_form.html'
     success_url = reverse_lazy('product_list')
+    login_url = '/login/'
 
 class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
+    login_url = '/login/'
     
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

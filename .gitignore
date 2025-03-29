@@ -1,0 +1,13 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Other Python ignores (optional)
+*.log
+*.pot
+*.pyc
