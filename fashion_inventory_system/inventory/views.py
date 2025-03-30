@@ -62,31 +62,44 @@ class ProductListView(ListView):
     template_name = 'inventory/product_list.html'
     context_object_name = 'products'
     
+    def normalize_keyword(self, text):
+        if not text:
+            return ""
+        text = text.lower()
+        # Remove punctuation and possessive forms
+        text = text.replace("'s", "").replace("'", "").replace("’", "")
+        return text.strip()
+
     def get_queryset(self):
-        queryset = super().get_queryset()
-        # Convert to list and sort numerically by product_id
-        queryset = sorted(list(queryset), key=lambda x: int(x.product_id))
+        queryset = super().get_queryset().order_by('product_id')
         
-        # Apply filters
-        filters = {}
-        for field in ['brand', 'category', 'color', 'size']:
-            if value := self.request.GET.get(field):
-                filters[field] = value
-        if price_min := self.request.GET.get('price_min'):
-            queryset = [p for p in queryset if float(p.price) >= float(price_min)]
-        if price_max := self.request.GET.get('price_max'):
-            queryset = [p for p in queryset if float(p.price) <= float(price_max)]
-        if filters:
-            queryset = [p for p in queryset if all(p.__dict__[key] == value for key, value in filters.items())]
+        # Get all filter parameters
+        filters = {
+            'name': self.request.GET.get('name'),
+            'brand': self.request.GET.get('brand'),
+            'category': self.request.GET.get('category'),
+            'color': self.request.GET.get('color'),
+            'size': self.request.GET.get('size'),
+            'material': self.request.GET.get('material'),
+            'price_min': self.request.GET.get('price_min'),
+            'price_max': self.request.GET.get('price_max'),
+        }
+        
+        # Apply keyword filters to text fields
+        for field in ['name', 'brand', 'category', 'color', 'size', 'material']:
+            if value := filters[field]:
+                normalized_value = self.normalize_keyword(value)
+                queryset = queryset.filter(
+                    **{f"{field}__icontains": normalized_value}
+                )
+        
+        # Apply price range filters
+        if price_min := filters['price_min']:
+            queryset = queryset.filter(price__gte=float(price_min))
+        if price_max := filters['price_max']:
+            queryset = queryset.filter(price__lte=float(price_max))
         
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter_form'] = ProductFilterForm(self.request.GET or None)
-        context['search_query'] = self.request.GET.get('search', '')
-        context['is_guest'] = self.request.session.get('guest_mode', False)
-        return context
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product

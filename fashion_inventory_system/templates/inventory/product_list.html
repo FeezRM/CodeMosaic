@@ -19,6 +19,9 @@
             <form method="get">
                 <div class="row g-3">
                     <div class="col-md-3">
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ request.GET.name }}">
+                    </div>
+                    <div class="col-md-3">
                         <input type="text" name="brand" class="form-control" placeholder="Brand" value="{{ request.GET.brand }}">
                     </div>
                     <div class="col-md-3">
