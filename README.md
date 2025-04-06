@@ -199,8 +199,6 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 - **Clean User Interface:** 6 hours
 
-#### Priority: 30
-
 #### Task Assignments:
 
 | Task                  | Assigned Team Members               |
