@@ -5,6 +5,7 @@
 **Code Mosaic**, led by team members **Ebaadurrub Awan, Ibrahim Ihsan, Tabish Ghouri, Faiz Kerawala, and Sayen Mayuran**, is developing a **command-line-based clothing inventory management system**. This system is designed to help you **digitize and manage their clothing catalogues efficiently**.
 
 The project focuses on providing essential inventory management functionalities, including:
+
 - Adding, editing, removing, sorting, and filtering clothing items.
 - Administrative login system for secured access.
 - Future scalability for web-based integration and AI-powered search.
@@ -58,6 +59,7 @@ This system is intended to ensure **seamless product management** while being sc
 ### Steps to Run the Project
 
 1. Clone the repository and get into project folder:
+
    ```sh
    git clone https://github.com/FeezRM/CodeMosaic.git
    cd CodeMosaic
@@ -65,6 +67,7 @@ This system is intended to ensure **seamless product management** while being sc
    ```
 
 2. Create and activate a virtual environment:
+
    ```bash
    python -m venv venv
    # Windows:
@@ -74,16 +77,20 @@ This system is intended to ensure **seamless product management** while being sc
    ```
 
 3. Run the build script:
+
    ```sh
    .\build_and_run.bat
    ```
 
-   OR   
-   After creating venv run: 
-   ```bash 
+   OR  
+   After creating venv run:
+
+   ```bash
    pip install django
    ```
+
    To get server running:
+
    ```bash
    python manage.py runserver
    ```
@@ -151,42 +158,44 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 ✅ **Product Descriptions** – Ensure every product contains detailed, meaningful descriptions for clarity.
 
 #### Estimated Effort (Planning Poker Estimates):
+
 - **Modify Product Details:** 2 hours
 - **Filters:** 2 hours
 - **Product Descriptions:** 2 hours
 
 #### Task Assignments:
 
-| Task                          | Assigned Team Members |
-| ----------------------------- | --------------------- |
-| **Modify Product Details**    | Ibrahim               |
-| **Filter**                    | Ebaadurrub, Tabish    |
-| **Product Descriptions**      | Faiz, Sayen           |
+| Task                       | Assigned Team Members |
+| -------------------------- | --------------------- |
+| **Modify Product Details** | Ibrahim               |
+| **Filter**                 | Ebaadurrub, Tabish    |
+| **Product Descriptions**   | Faiz, Sayen           |
 
 ---
-## Iteration 1 Details
+
+## Iteration 3 Details
 
 ### **Iteration 3**
 
 #### User Stories Being Implemented:
 
-✅ **Secure Login** - Implement a system that ensures only authorized personnel can access and modify inventory.  
-✅ **Add Products** - Enable the addition of new products to the inventory system.  
-✅ **Remove Products** - Allow products to be removed from the system to keep inventory updated.
+✅ **Simple Navigation System** – As a customer, I want a simple navigation system, so that I can easily browse and find products.
 
 #### Estimated Effort (Planning Poker Estimates):
 
-- **Secure Login:** 2 hours
-- **Add Products:** 2 hours
-- **Remove Products:** 2 hours
+- **Navigation System:** 6 hours
+
+#### Actual Time Spent:
+
+- **6 hours**
+
+#### Priority: 30
 
 #### Task Assignments:
 
-| Task                | Assigned Team Members |
-| ------------------- | --------------------- |
-| **Secure Login**    | Ebaadurrub            |
-| **Add Products**    | Ibrahim, Sayen        |
-| **Remove Products** | Tabish, Faiz          |
+| Task                  | Assigned Team Members               |
+| --------------------- | ----------------------------------- |
+| **Navigation System** | Ibrahim, Faiz, Ebaad, Tabish, Sayen |
 
 ## License
 
