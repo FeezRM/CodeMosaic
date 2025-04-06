@@ -164,6 +164,29 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 | **Product Descriptions**      | Faiz, Sayen           |
 
 ---
+## Iteration 1 Details
+
+### **Iteration 3**
+
+#### User Stories Being Implemented:
+
+✅ **Secure Login** - Implement a system that ensures only authorized personnel can access and modify inventory.  
+✅ **Add Products** - Enable the addition of new products to the inventory system.  
+✅ **Remove Products** - Allow products to be removed from the system to keep inventory updated.
+
+#### Estimated Effort (Planning Poker Estimates):
+
+- **Secure Login:** 2 hours
+- **Add Products:** 2 hours
+- **Remove Products:** 2 hours
+
+#### Task Assignments:
+
+| Task                | Assigned Team Members |
+| ------------------- | --------------------- |
+| **Secure Login**    | Ebaadurrub            |
+| **Add Products**    | Ibrahim, Sayen        |
+| **Remove Products** | Tabish, Faiz          |
 
 ## License
 
