@@ -60,6 +60,7 @@ This system is intended to ensure **seamless product management** while being sc
 1. Clone the repository and get into project folder:
    ```sh
    git clone https://github.com/FeezRM/CodeMosaic.git
+   cd CodeMosaic
    cd fashion-inventory-system
    ```
 
