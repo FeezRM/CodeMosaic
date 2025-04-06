@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-**Code Mosaic**, led by team members **Ebaadurrub Awan, Ibrahim Ihsan, Tabish Ghouri, Faiz Kerawala, and Sayen Mayuran**, is developing a **command-line-based clothing inventory management system**. This system is designed to help you **digitize and manage their clothing catalogues efficiently**.
+**Code Mosaic**, led by team members **Ebaadurrub Awan, Ibrahim Ihsan, Tabish Ghouri, Faiz Kerawala, and Sayen Mayuran**, developed a **web-based clothing inventory management system**. This system is designed to help you **digitize and manage clothing catalogues efficiently**.
 
 The project focuses on providing essential inventory management functionalities, including:
 
 - Adding, editing, removing, sorting, and filtering clothing items.
 - Administrative login system for secured access.
-- Future scalability for web-based integration and AI-powered search.
+- Future scalability for web-based integration.
 
 This system is intended to ensure **seamless product management** while being scalable for future enhancements.
 
@@ -22,7 +22,6 @@ This system is intended to ensure **seamless product management** while being sc
 - Design a **flexible system** that supports various clothing items.
 - Secure authentication system to protect access.
 - Optimize the interface for **mobile and desktop usability**.
-- Integrate **AI-powered search and recommendations**.
 - Establish a **scalable architecture** for future growth.
 
 ---
@@ -37,6 +36,7 @@ This system is intended to ensure **seamless product management** while being sc
 ✅ **Remove Products** - Remove outdated or unavailable products.  
 ✅ **Filtering System** - Filter products by size, color, price, etc.  
 ✅ **Sorting System** - Sort clothing items for easier navigation.
+✅ **Clean User Interface** - Create a clean user interface to provide users a smooth experience.
 
 ---
 
@@ -139,6 +139,11 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 - **Add Products:** 2 hours
 - **Remove Products:** 2 hours
 
+#### Actual Time Spent:
+- **Secure Login:** 1 hour
+- **Add Products:** 1 hour
+- **Remove Products:** 1 hour
+
 #### Task Assignments:
 
 | Task                | Assigned Team Members |
@@ -154,14 +159,19 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 #### User Stories Being Implemented:
 
 ✅ **Modify Product Details** – Allow users to update existing product information in the inventory.  
-✅ **Filters** – Enable filtering of products based on multiple criteria for easier navigation and management.  
+✅ **Filter** – Enable filtering of products based on multiple criteria for easier navigation and management.  
 ✅ **Product Descriptions** – Ensure every product contains detailed, meaningful descriptions for clarity.
 
 #### Estimated Effort (Planning Poker Estimates):
 
 - **Modify Product Details:** 2 hours
-- **Filters:** 2 hours
+- **Filter:** 3 hours
 - **Product Descriptions:** 2 hours
+
+#### Actual Time Spent:
+- **Modify Product Details:** 1 hour
+- **Filter:** 2 hours
+- **Product Descriptions:** 1 hour
 
 #### Task Assignments:
 
@@ -183,11 +193,11 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 #### Estimated Effort (Planning Poker Estimates):
 
-- **Navigation System:** 6 hours
+- **Clean User Interface:** 6 hours
 
 #### Actual Time Spent:
 
-- **6 hours**
+- **Clean User Interface:** 6 hours
 
 #### Priority: 30
 
