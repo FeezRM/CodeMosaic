@@ -179,7 +179,7 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 #### User Stories Being Implemented:
 
-✅ **Simple Navigation System** – As a customer, I want a simple navigation system, so that I can easily browse and find products.
+✅ **Clean User Interface** – As a customer, I want a simple navigation system, so that I can easily browse and find products.
 
 #### Estimated Effort (Planning Poker Estimates):
 
@@ -195,7 +195,7 @@ We are following **Agile Development** with a **Trello board** to manage tasks e
 
 | Task                  | Assigned Team Members               |
 | --------------------- | ----------------------------------- |
-| **Navigation System** | Ibrahim, Faiz, Ebaad, Tabish, Sayen |
+| **Clean User Interface** | Ibrahim, Faiz, Ebaad, Tabish, Sayen |
 
 ## License
 
